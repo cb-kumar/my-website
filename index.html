@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KT FAQ</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            color: #333;
+            padding: 20px;
+            background: linear-gradient(to right, #ffecd2, #fcb69f);
+        }
+        h1 {
+            font-size: 2.5em;
+            background: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-align: center;
+            margin-bottom: 10px;
+            animation: gradient 4s linear infinite;
+        }
+        .divider {
+            height: 2px;
+            background: linear-gradient(to right, #4CAF50, #2196F3, #FF5722);
+            margin: 20px 0;
+        }
+        .faq-section {
+            margin-bottom: 20px;
+        }
+        .question {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        .answer {
+            margin-left: 20px;
+            color: #34495e;
+        }
+        .wave {
+            display: inline-block;
+            font-size: 2em;
+            animation: wave 2s infinite;
+        }
+        @keyframes wave {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0); }
+        }
+        @keyframes gradient {
+            0% { background-position: 0% 0%; }
+            50% { background-position: 100% 100%; }
+            100% { background-position: 0% 0%; }
+        }
+        .dropdown {
+            margin: 20px 0;
+        }
+        .dropdown-content {
+            display: none;
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            padding: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            max-height: 500px;
+            overflow-y: auto;
+        }
+        .dropdown-button {
+            background-color: #3498db;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            width: 100%;
+        }
+        .dropdown-button:hover {
+            background-color: #2980b9;
+        }
+        .task {
+            margin: 10px 0;
+            font-family: monospace;
+            color: #333;
+        }
+        .divider-thin {
+            border-top: 1px solid #ddd;
+            margin: 10px 0;
+        }
+        .comment {
+            color: #888;
+            font-style: italic;
+        }
+        .highlight {
+            background-color: #f9f9f9;
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>KT FAQ</h1>
+    <div class="divider"></div>
+    <div class="faq-section">
+        <p class="question"><span class="wave">How are you?</span></p>
+        <p class="answer">I’m fine, thank you!</p>
+    </div>
+    <div class="faq-section">
+        <p class="question"><span class="wave">What is KT?</span></p>
+        <p class="answer">KT stands for Knowledge Transfer.</p>
+    </div>
+    <!-- Add more FAQ sections as needed -->
+
+    <!-- Dropdown for Ansible Playbook -->
+    <div class="dropdown">
+        <button class="dropdown-button" onclick="toggleDropdown()">View Ansible Playbook</button>
+        <div id="dropdownContent" class="dropdown-content">
+            <div class="task">
+                <pre>
+- hosts: all
+  gather_facts: false
+  vars:
+    ansible_verbosity: 4
+                </pre>
+            </div>
+            <div class="divider-thin"></div>
+            <div class="task">
+                <pre>
+  tasks:
+
+    - name: Check for patch details ➾➾➾➾ 🌸BEFORE PATCHING🌸
+      command: "uname -r"
+      register: kernel_version_before
+                </pre>
+            </div>
+            <div class="divider-thin"></div>
+            <div class="task">
+                <pre>
+    - name: check which patch stream repo is enabled
+      command: dnf repolist --enabled
+                </pre>
+            </div>
+            <div class="divider-thin"></div>
+            <div class="task">
+                <pre>
+    # - name: Disable all patch stream repos step 1
+    #   become: true
+    #   command: dnf config-manager --set-disabled rhel88-baseos-eus-patch0
+
+    # - name: Disable all patch stream repos step 2
+    #   become: true
+    #   command: dnf config-manager --set-disabled rhel88-appstream-eus-patch0
+                </pre>
+            </div>
+            <div class="divider-thin"></div>
+            <div class="task">
+                <pre>
+    - name: check which patch stream repo is enabled after change
+      command: dnf repolist --enabled
+                </pre>
+            </div>
+            <div class="divider-thin"></div>
+            <div class="task">
+                <pre>
+    - name: Check current healthCheck status ➾➾➾➾ 🌸BEFORE PATCHING🌸
+      become: true
+      become_user: "{{accountname}}"
+      shell: "grep -q 'UP' /app/{{accountname}}/gcti/IL_Chat_Base/apps/ECV/healthcheck.jsp && echo 'UP' || echo 'NOT FOUND'"
+      register: healthcheck_status
+                </pre>
+            </div>
+            <div class="divider-thin"></div>
+            <div class="task">
+                <pre>
+    - name: Display current healthCheck status ➾➾➾➾ 🌸BEFORE PATCHING🌸
+      debug:
+        msg: "Current healthCheck status is {{ healthcheck_status.stdout }}"
+                </pre>
+            </div>
+            <div class="divider-thin"></div>
+            <div class="task">
+                <pre>
+    - name: Set healthCheck status to DOWN if it is UP ➾➾➾➾ 🌸BEFORE PATCHING🌸
+      become: true
+      become_user: "{{accountname}}"
+      lineinfile:
+        path: /app/{{accountname}}/gcti/IL_Chat_Base/apps/ECV/healthcheck.jsp
+        regexp: '^UP$'
+        line: 'DOWN'
+        backup: yes
+      when: healthcheck_status.stdout == 'UP'
+                </pre>
+            </div>
+            <div class="divider-thin"></div>
+            <div class="task">
+                <pre>
+    - name: No action needed if healthCheck is already DOWN ➾➾➾➾ 🌸BEFORE PATCHING🌸
+      debug:
+        msg: "No action needed. HealthCheck is already DOWN."
+      when: healthcheck_status.stdout != 'UP'
+                </pre>
+            </div>
+            <div class="divider-thin"></div>
+            <div class="task">
+                <pre>
+    - name: Re-check current healthCheck status ➾➾➾➾ 🌸BEFORE PATCHING🌸
+      become: true
+      become_user: "{{accountname}}"
+      shell: "grep -q 'UP' /app/{{accountname}}/gcti/IL_Chat_Base/apps/ECV/healthcheck.jsp && echo 'UP' || echo 'DOWN'"
+      register: recheck_healthcheck_status
+                </pre>
+            </div>
+            <div class="divider-thin"></div>
+            <div class="task">
+                <pre>
+    - name: Display re-checked healthCheck status
+      debug:
+        msg: "Re-checked healthCheck status is {{ recheck_healthcheck_status.stdout }}"
+                </pre>
+            </div>
+            <div class="divider-thin"></div>
+            <div class="task">
+                <pre>
+    - name: check-fstab ➾➾➾➾ 🌸BEFORE PATCHING🌸
+      become: true
+      become_user: "{{ accountname }}"
+      command: "check-fstab"
+      register: check_fstab_output
+      ignore_errors: yes
+                </pre>
+            </div>
+            <div class="divider-thin"></div>
+            <div class="task">
+                <pre>
+    - name: Display the list of files ➾➾➾➾ 🌸BEFORE PATCHING🌸
+      debug:
+        msg: "Result: {{ check_fstab_output.stdout }}"
+                </pre>
+            </div>
+            <div class="divider-thin"></div>
+            <div class="task">
+                <pre>
+    - name: Find shutdown files ➾➾➾➾ 🌸PATCHING🌸
+      find:
+        paths: /app/{{accountname}}/gcti/IL_Chat_Base/
+        patterns: "*.shutdown"
+      register: shutdown_files
+                </pre>
+            </div>
+            <div class="divider-thin"></div>
+            <div class="task">
+                <pre>
+    - name: Display shutdown files
+      debug:
+        msg: "Shutdown files found: {{ shutdown_files.files | length }}"
+                </pre>
+            </div>
+            <div class="divider-thin"></div>
+            <div class="task">
+                <pre>
+    - name: Process restart ➾➾➾➾ 🌸PATCHING🌸
+      become: true
+      become_user: "{{accountname}}"
+      shell: |
+        cd /app/{{accountname}}/gcti/IL_Chat_Base/
+        ./restart.sh
+      ignore_errors: yes
+      register: process_restart
+                </pre>
+            </div>
+            <div class="divider-thin"></div>
+            <div class="task">
+                <pre>
+    - name: Display process restart result
+      debug:
+        msg: "Process restart result: {{ process_restart.stdout }}"
+                </pre>
+            </div>
+            <div class="divider-thin"></div>
+            <div class="task">
+                <pre>
+    - name: Check kernel version after patching ➾➾➾➾ 🌸AFTER PATCHING🌸
+      command: "uname -r"
+      register: kernel_version_after
+                </pre>
+            </div>
+            <div class="divider-thin"></div>
+            <div class="task">
+                <pre>
+    - name: Display kernel version after patching
+      debug:
+        msg: "Kernel version after patching: {{ kernel_version_after.stdout }}"
+                </pre>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleDropdown() {
+            var content = document.getElementById("dropdownContent");
+            if (content.style.display === "none" || content.style.display === "") {
+                content.style.display = "block";
+            } else {
+                content.style.display = "none";
+            }
+        }
+    </script>
+</body>
+</html>
+
